@@ -1,33 +1,49 @@
-import { useRef, useState } from "react";
-import "./App.css";
-
+import React, { useState, useRef } from "react";
+import "./app.css";
 function App() {
-  const [subTask, setSubTask] = useState([]);
-  const subTaskRef = useRef();
-  const taskRef = useRef();
-  const [task, setTask] = useState([]);
-  let currentRef = [taskRef, subTaskRef];
+  const [list, setList] = useState([]);
+  const [input, setInput] = useState("");
+  const taskref = useRef("");
+  const [taskList, seTaskList] = useState([]);
+  const addTodo = (todo) => {
+    const newTodo = {
+      id: Math.random(),
+      todo: todo,
+      task: taskList,
+    };
+    setList([...list, newTodo]);
+    setInput("");
+    console.log(newTodo);
+  };
 
   return (
-    <div className="App">
-      <input type="text" ref={currentRef[0]} />
-      <button onClick={() => setTask([...task, taskRef.current.value])}>
-        Add List
-      </button>
-      <button
-        onClick={() => setSubTask([...subTask, subTaskRef.current.value])}
-      >
-        Add todo
-      </button>
+    <div>
+      <h2>Current List : </h2>
+      <input
+        ref={taskref}
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={() => addTodo(input)}>Add list</button>
+      <button onClick={() => seTaskList([...taskList, input])}>Add Todo</button>
       <div>
-        {task.map(function (taskRef, index) {
-          return <button>{taskRef}</button>;
+        {list.map(function (todo, index) {
+          return (
+            <div>
+              <button key={todo.id}>{todo.todo}</button>
+            </div>
+          );
         })}
-      </div>
-      <div>
-        {subTask.map(function (todoRef, index) {
-          return <li>{todoRef}</li>;
-        })}
+        <div>
+          {taskList.map(function (task, index) {
+            return (
+              <div>
+                <li>{task}</li>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
